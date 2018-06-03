@@ -1,7 +1,7 @@
 // the name of the sheet within your document
-var sheetName = "Data";
+var sheetName = "Sheet1";
 // the name of the Instagram account you want to track
-var instagramAccountName = "p.lungarini";
+var instagramAccountName = "insert username here";
 
 function insertFollowerCount() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
