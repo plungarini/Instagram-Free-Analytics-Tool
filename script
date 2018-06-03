@@ -1,5 +1,5 @@
 // the name of the sheet within your document
-var sheetName = "Sheet1";
+var sheetName = "Sheet 1";
 // the name of the Instagram account you want to track
 var instagramAccountName = "insert username here";
 
