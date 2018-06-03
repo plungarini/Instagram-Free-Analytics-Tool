@@ -1,7 +1,7 @@
 // the name of the sheet within your document
-var sheetName = "Sheet 1";
+var sheetName = "Data";
 // the name of the Instagram account you want to track
-var instagramAccountName = "insert username here";
+var instagramAccountName = "p.lungarini";
 
 function insertFollowerCount() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -24,7 +24,10 @@ function getInstagramData(username) {
                    '([^{]+?({.*profile_pic_url.*})[^}]+?)' +
                    '<\/script>');
   var url = "https://www.instagram.com/" + username, totalComments = 0, totalLikes = 0;
-  var source = UrlFetchApp.fetch(url).getContentText();
+  var options = {
+    "muteHttpExceptions":true
+  };
+  var source = UrlFetchApp.fetch(url, options).getContentText();
   var jsonStr = source.match(r)[2];
   var data = JSON.parse(jsonStr);
   console.log('data', data);
