@@ -3,7 +3,7 @@ var sheetName = "Sheet 1";
 // the name of the Instagram account you want to track
 var instagramAccountName = "insert username here";
 
-function insertFollowerCount() {
+function insertFollowerCounttravelnuts() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(this.sheetName);
   accountdata = getInstagramData(this.instagramAccountName);
@@ -24,10 +24,7 @@ function getInstagramData(username) {
                    '([^{]+?({.*profile_pic_url.*})[^}]+?)' +
                    '<\/script>');
   var url = "https://www.instagram.com/" + username, totalComments = 0, totalLikes = 0;
-  var options = {
-    "muteHttpExceptions":true
-  };
-  var source = UrlFetchApp.fetch(url, options).getContentText();
+  var source = UrlFetchApp.fetch(url).getContentText();
   var jsonStr = source.match(r)[2];
   var data = JSON.parse(jsonStr);
   console.log('data', data);
@@ -35,14 +32,14 @@ function getInstagramData(username) {
   console.log('oldVariantOfData', oldVariantOfData);
  
     for(var i = 0; i < 12; i++) {
-      totalComments += parseInt(oldVariantOfData.graphql.user.edge_owner_to_timeline_media.edges[i].node.edge_media_to_comment.count);
+      var eottm = oldVariantOfData.graphql.user.edge_owner_to_timeline_media.edges[i];
+      if(eottm != undefined){
+        totalComments += parseInt(eottm.node.edge_media_to_comment.count);
+        totalLikes += parseInt(eottm.node.edge_liked_by.count);
+      }
       Logger.log(totalComments);
-       };
-  
-   for(var l = 0; l < 12; l++) {
-          totalLikes += parseInt(oldVariantOfData.graphql.user.edge_owner_to_timeline_media.edges[l].node.edge_liked_by.count);
-          Logger.log(totalLikes); 
-        };
+      Logger.log(totalLikes); 
+    };
   
   return {
     followerCount : oldVariantOfData.graphql.user.edge_followed_by.count,
